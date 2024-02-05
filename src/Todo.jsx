@@ -1,19 +1,13 @@
 import { useState } from "react";
 import "./styles.css";
 
-//　未完了のTODO一覧
+//　TODO一覧
 export const Todo = () => {
-  const [todoText, setTodoText] = useState("タスク");
-  const [incompleteTodos, setIncompleteTodos] = useState([
-    "TODOです1",
-    "TODOです2",
-  ]);
-
+  const [todoText, setTodoText] = useState("");
+  //　未完了のTODO一覧
+  const [incompleteTodos, setIncompleteTodos] = useState([]);
   //　完了のTODO一覧
-  const [completeTodos, setCompleteTodos] = useState([
-    "TODOでした1",
-    "TODOでした2",
-  ]);
+  const [completeTodos, setCompleteTodos] = useState([]);
 
   const onChangeTodoText = (event) => setTodoText(event.target.value);
 
@@ -77,7 +71,7 @@ export const Todo = () => {
         </ul>
       </div>
       <div className="complete-area">
-        <p>完了のTODO</p>
+        <p className="title">完了のTODO</p>
         <ul>
           {completeTodos.map((todo, index) => (
             <li key={todo}>
