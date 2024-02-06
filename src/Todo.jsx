@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { InputTodolist } from "./compornents/InputTodolist";
+import { IncompleteTodolist } from "./compornents/IncompleteTodolist";
+import { CompleteTodolist } from "./compornents/CompleteTodolist";
 import "./styles.css";
 
 //　TODO一覧
@@ -46,43 +49,27 @@ export const Todo = () => {
     setIncompleteTodos(newIncompleteTodos);
   };
 
+  const isMaxLimitedIncompleteTodos = incompleteTodos.length >= 5;
+
   return (
     <>
-      <div className="input-area">
-        <input
-          placeholder="TODOを入力"
-          value={todoText}
-          onChange={onChangeTodoText}
-        />
-        <button onClick={onClickAdd}>追加</button>
-      </div>
-      <div className="incomplete-area">
-        <p className="title">未完了のTODO</p>
-        <ul>
-          {incompleteTodos.map((todo, index) => (
-            <li key={todo}>
-              <div className="list-row">
-                <p className="todo-item">{todo}</p>
-                <button onClick={() => onClickComplete(index)}>完了</button>
-                <button onClick={() => onClickDelete(index)}>削除</button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className="complete-area">
-        <p className="title">完了のTODO</p>
-        <ul>
-          {completeTodos.map((todo, index) => (
-            <li key={todo}>
-              <div className="list-row">
-                <p className="todo-item">{todo}</p>
-                <button onClick={() => onClickBack(index)}>戻す</button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <InputTodolist
+        todoText={todoText}
+        onChange={onChangeTodoText}
+        onClick={onClickAdd}
+        disabled={isMaxLimitedIncompleteTodos}
+      />
+      {isMaxLimitedIncompleteTodos && (
+        <p style={{ color: "red" }}>
+          登録できるTODOは5個まで！！！消化して！！！
+        </p>
+      )}
+      <IncompleteTodolist
+        todos={incompleteTodos}
+        onClickComplete={onClickComplete}
+        onClickDelete={onClickDelete}
+      />
+      <CompleteTodolist todos={completeTodos} onClickBack={onClickBack} />
     </>
   );
 };
